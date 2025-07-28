@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FFmpeg Android 编译配置器</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎬 FFmpeg Android 编译配置器</h1>
+            <p>简化配置，一键编译 - 为Android平台定制FFmpeg库</p>
+        </div>
+
+        <div class="content">
+            <!-- 步骤导航 -->
+            <div class="step-navigation" id="step-navigation">
+                <div class="step-indicator">
+                    <div class="step-item active" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-title">快速预设</div>
+                    </div>
+                    <div class="step-item" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-title">解码器</div>
+                    </div>
+                    <div class="step-item" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-title">编码器</div>
+                    </div>
+                    <div class="step-item" data-step="4">
+                        <div class="step-number">4</div>
+                        <div class="step-title">复用器</div>
+                    </div>
+                    <div class="step-item" data-step="5">
+                        <div class="step-number">5</div>
+                        <div class="step-title">解复用器</div>
+                    </div>
+                    <div class="step-item" data-step="6">
+                        <div class="step-number">6</div>
+                        <div class="step-title">滤镜</div>
+                    </div>
+                    <div class="step-item" data-step="7">
+                        <div class="step-number">7</div>
+                        <div class="step-title">网络协议</div>
+                    </div>
+                    <div class="step-item" data-step="8">
+                        <div class="step-number">8</div>
+                        <div class="step-title">优化配置</div>
+                    </div>
+                    <div class="step-item" data-step="9">
+                        <div class="step-number">9</div>
+                        <div class="step-title">开始编译</div>
+                    </div>
+                </div>
+                <div class="step-controls">
+                    <button class="btn btn-secondary" id="prev-step" disabled>上一步</button>
+                    <button class="btn btn-primary" id="next-step">下一步</button>
+                    <button class="btn btn-success" id="start-compile" style="display: none;">开始编译</button>
+                </div>
+            </div>
+
+            <!-- 步骤1: 快速预设 -->
+            <div class="section step-section" id="step-1">
+                <h3>🚀 第一步：选择配置预设</h3>
+                <p class="step-description">选择一个适合您应用需求的基础配置，这将决定FFmpeg的基本功能范围</p>
+
+                <div class="preset-grid">
+                    <div class="preset-card" data-preset="minimal">
+                        <div class="preset-icon">🎯</div>
+                        <h4>最小版</h4>
+                        <p>仅包含基本H.264解码功能</p>
+                        <div class="preset-features">
+                            <span class="feature">H.264解码</span>
+                            <span class="feature">MP4格式</span>
+                            <span class="feature">最小体积</span>
+                        </div>
+                        <div class="preset-size">预计大小: ~2MB</div>
+                    </div>
+
+                    <div class="preset-card" data-preset="basic">
+                        <div class="preset-icon">📱</div>
+                        <h4>基础版</h4>
+                        <p>适合基本的视频播放应用</p>
+                        <div class="preset-features">
+                            <span class="feature">常用编解码器</span>
+                            <span class="feature">HTTP/HTTPS</span>
+                            <span class="feature">基础滤镜</span>
+                        </div>
+                        <div class="preset-size">预计大小: ~8MB</div>
+                    </div>
+
+                    <div class="preset-card" data-preset="standard">
+                        <div class="preset-badge">推荐</div>
+                        <div class="preset-icon">⚡</div>
+                        <h4>标准版</h4>
+                        <p>包含常用编解码器，适合大多数应用</p>
+                        <div class="preset-features">
+                            <span class="feature">H.264/H.265</span>
+                            <span class="feature">多种格式</span>
+                            <span class="feature">流媒体支持</span>
+                        </div>
+                        <div class="preset-size">预计大小: ~15MB</div>
+                    </div>
+
+                    <div class="preset-card" data-preset="streaming">
+                        <div class="preset-icon">📡</div>
+                        <h4>流媒体版</h4>
+                        <p>专为流媒体播放优化</p>
+                        <div class="preset-features">
+                            <span class="feature">HLS/DASH</span>
+                            <span class="feature">自适应流</span>
+                            <span class="feature">网络协议</span>
+                        </div>
+                        <div class="preset-size">预计大小: ~12MB</div>
+                    </div>
+
+                    <div class="preset-card" data-preset="live">
+                        <div class="preset-icon">🔴</div>
+                        <h4>直播版</h4>
+                        <p>专为直播应用优化</p>
+                        <div class="preset-features">
+                            <span class="feature">实时编码</span>
+                            <span class="feature">RTMP/SRT</span>
+                            <span class="feature">低延迟</span>
+                        </div>
+                        <div class="preset-size">预计大小: ~18MB</div>
+                    </div>
+
+                    <div class="preset-card" data-preset="complete">
+                        <div class="preset-icon">🚀</div>
+                        <h4>完整版</h4>
+                        <p>包含所有功能的完整版本</p>
+                        <div class="preset-features">
+                            <span class="feature">全部编解码器</span>
+                            <span class="feature">所有格式</span>
+                            <span class="feature">完整功能</span>
+                        </div>
+                        <div class="preset-size">预计大小: ~35MB</div>
+                    </div>
+                </div>
+
+                <div class="selected-preset-info" id="selected-preset-info" style="display: none;">
+                    <h4>已选择预设：<span id="selected-preset-name"></span></h4>
+                    <p id="selected-preset-description"></p>
+                </div>
+            </div>
+            <!-- 步骤2: 解码器 -->
+            <div class="section step-section" id="step-2" style="display: none;">
+                <h3>🎬 第二步：解码器配置</h3>
+                <p class="step-description">选择需要的解码器，用于解码各种音视频格式</p>
+
+                <div class="codec-grid">
+                    <div class="codec-category">
+                        <h4>📹 视频解码器</h4>
+                        <div class="checkbox-grid">
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="decoders" value="h264" checked>
+                                <div class="card-content">
+                                    <div class="codec-icon">🎬</div>
+                                    <div class="codec-name">H.264</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-decoder=h264</div>
+                                    <div class="codec-desc">最常用的视频编解码器</div>
+                                    <div class="format-tag popular">必备</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="decoders" value="h265">
+                                <div class="card-content">
+                                    <div class="codec-icon">🚀</div>
+                                    <div class="codec-name">H.265/HEVC</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-decoder=hevc</div>
+                                    <div class="codec-desc">高效视频编码</div>
+                                    <div class="format-tag popular">⭐ 推荐</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="decoders" value="vp8">
+                                <div class="card-content">
+                                    <div class="codec-icon">🌐</div>
+                                    <div class="codec-name">VP8</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-decoder=vp8</div>
+                                    <div class="codec-desc">Google开发的视频编解码器</div>
+                                    <div class="format-tag popular">⭐ 推荐</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="decoders" value="vp9">
+                                <div class="card-content">
+                                    <div class="codec-icon">🎯</div>
+                                    <div class="codec-name">VP9</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-decoder=vp9</div>
+                                    <div class="codec-desc">VP8的后继者</div>
+                                    <div class="format-tag popular">⭐ 推荐</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="decoders" value="av1">
+                                <div class="card-content">
+                                    <div class="codec-icon">🆕</div>
+                                    <div class="codec-name">AV1</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-decoder=av1</div>
+                                    <div class="codec-desc">下一代开源视频编解码器</div>
+                                    <div class="format-tag popular">⭐ 推荐</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="decoders" value="mpeg4">
+                                <div class="card-content">
+                                    <div class="codec-icon">📼</div>
+                                    <div class="codec-name">MPEG-4</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-decoder=mpeg4</div>
+                                    <div class="codec-desc">传统视频编解码器</div>
+                                    <div class="format-tag">传统</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="codec-category">
+                        <h4>🎵 音频解码器</h4>
+                        <div class="checkbox-grid">
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="decoders" value="aac" checked>
+                                <div class="card-content">
+                                    <div class="codec-icon">🎵</div>
+                                    <div class="codec-name">AAC</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-decoder=aac</div>
+                                    <div class="codec-desc">高级音频编码</div>
+                                    <div class="format-tag popular">必备</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="decoders" value="mp3" checked>
+                                <div class="card-content">
+                                    <div class="codec-icon">🎶</div>
+                                    <div class="codec-name">MP3</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-decoder=mp3</div>
+                                    <div class="codec-desc">最流行的音频格式</div>
+                                    <div class="format-tag popular">必备</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="decoders" value="flac">
+                                <div class="card-content">
+                                    <div class="codec-icon">💎</div>
+                                    <div class="codec-name">FLAC</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-decoder=flac</div>
+                                    <div class="codec-desc">自由无损音频编解码器</div>
+                                    <div class="format-tag popular">⭐ 推荐</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="decoders" value="opus">
+                                <div class="card-content">
+                                    <div class="codec-icon">🎯</div>
+                                    <div class="codec-name">Opus</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-decoder=opus</div>
+                                    <div class="codec-desc">高质量音频编解码器</div>
+                                    <div class="format-tag popular">⭐ 推荐</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="decoders" value="vorbis">
+                                <div class="card-content">
+                                    <div class="codec-icon">🆓</div>
+                                    <div class="codec-name">Vorbis</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-decoder=vorbis</div>
+                                    <div class="codec-desc">开源音频编解码器</div>
+                                    <div class="format-tag popular">⭐ 推荐</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="decoders" value="pcm_s16le">
+                                <div class="card-content">
+                                    <div class="codec-icon">🔊</div>
+                                    <div class="codec-name">PCM 16-bit</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-decoder=pcm_s16le</div>
+                                    <div class="codec-desc">未压缩音频</div>
+                                    <div class="format-tag popular">⭐ 推荐</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="decoders" value="ac3">
+                                <div class="card-content">
+                                    <div class="codec-icon">🎭</div>
+                                    <div class="codec-name">AC-3</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-decoder=ac3</div>
+                                    <div class="codec-desc">杜比数字音频</div>
+                                    <div class="format-tag">影院</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="decoders" value="eac3">
+                                <div class="card-content">
+                                    <div class="codec-icon">🎭</div>
+                                    <div class="codec-name">E-AC-3</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-decoder=eac3</div>
+                                    <div class="codec-desc">增强型AC-3</div>
+                                    <div class="format-tag">影院</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 步骤3: 编码器 -->
+            <div class="section step-section" id="step-3" style="display: none;">
+                <h3>🎥 第三步：编码器配置</h3>
+                <p class="step-description">选择需要的编码器，用于编码输出各种音视频格式</p>
+
+                <div class="codec-grid">
+                    <div class="codec-category">
+                        <h4>📹 视频编码器</h4>
+                        <div class="checkbox-grid">
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="encoders" value="libx264">
+                                <div class="card-content">
+                                    <div class="codec-icon">🎬</div>
+                                    <div class="codec-name">H.264 (libx264)</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-encoder=libx264</div>
+                                    <div class="codec-desc">最常用的H.264编码器</div>
+                                    <div class="format-tag popular">⭐ 推荐</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="encoders" value="libx265">
+                                <div class="card-content">
+                                    <div class="codec-icon">🚀</div>
+                                    <div class="codec-name">H.265 (libx265)</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-encoder=libx265</div>
+                                    <div class="codec-desc">高效H.265编码器</div>
+                                    <div class="format-tag">高效</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="encoders" value="libvpx">
+                                <div class="card-content">
+                                    <div class="codec-icon">🌐</div>
+                                    <div class="codec-name">VP8 (libvpx)</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-encoder=libvpx</div>
+                                    <div class="codec-desc">VP8视频编码器</div>
+                                    <div class="format-tag">Google</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="encoders" value="libvpx-vp9">
+                                <div class="card-content">
+                                    <div class="codec-icon">🎯</div>
+                                    <div class="codec-name">VP9 (libvpx-vp9)</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-encoder=libvpx-vp9</div>
+                                    <div class="codec-desc">VP9视频编码器</div>
+                                    <div class="format-tag">Google</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="encoders" value="mjpeg">
+                                <div class="card-content">
+                                    <div class="codec-icon">📷</div>
+                                    <div class="codec-name">MJPEG</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-encoder=mjpeg</div>
+                                    <div class="codec-desc">Motion JPEG编码器</div>
+                                    <div class="format-tag">图像</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="codec-category">
+                        <h4>🎵 音频编码器</h4>
+                        <div class="checkbox-grid">
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="encoders" value="aac">
+                                <div class="card-content">
+                                    <div class="codec-icon">🎵</div>
+                                    <div class="codec-name">AAC</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-encoder=aac</div>
+                                    <div class="codec-desc">高级音频编码</div>
+                                    <div class="format-tag popular">⭐ 推荐</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="encoders" value="libmp3lame">
+                                <div class="card-content">
+                                    <div class="codec-icon">🎶</div>
+                                    <div class="codec-name">MP3 (LAME)</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-encoder=libmp3lame</div>
+                                    <div class="codec-desc">高质量MP3编码器</div>
+                                    <div class="format-tag popular">⭐ 推荐</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="encoders" value="libopus">
+                                <div class="card-content">
+                                    <div class="codec-icon">🎯</div>
+                                    <div class="codec-name">Opus</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-encoder=libopus</div>
+                                    <div class="codec-desc">现代音频编码器</div>
+                                    <div class="format-tag">现代</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="encoders" value="libvorbis">
+                                <div class="card-content">
+                                    <div class="codec-icon">🆓</div>
+                                    <div class="codec-name">Vorbis</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-encoder=libvorbis</div>
+                                    <div class="codec-desc">开源音频编码器</div>
+                                    <div class="format-tag">开源</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="encoders" value="pcm_s16le">
+                                <div class="card-content">
+                                    <div class="codec-icon">🔊</div>
+                                    <div class="codec-name">PCM 16-bit</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-encoder=pcm_s16le</div>
+                                    <div class="codec-desc">未压缩音频</div>
+                                    <div class="format-tag popular">⭐ 推荐</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 步骤4: 复用器 -->
+            <div class="section step-section" id="step-4" style="display: none;">
+                <h3>📤 第四步：复用器配置</h3>
+                <p class="step-description">选择需要的输出格式。复用器(Muxer)用于将编码后的音视频流打包成文件</p>
+
+                <div class="format-grid">
+                    <div class="format-category">
+                        <h4>📹 视频容器格式 (复用器)</h4>
+                        <div class="checkbox-grid">
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="muxers" value="mp4" checked>
+                                <div class="card-content">
+                                    <div class="format-icon">📱</div>
+                                    <div class="format-name">MP4</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-muxer=mp4</div>
+                                    <div class="format-desc">MPEG-4 Part 14容器，最常用的视频格式</div>
+                                    <div class="format-tag popular">常用</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="muxers" value="mov">
+                                <div class="card-content">
+                                    <div class="format-icon">🍎</div>
+                                    <div class="format-name">MOV</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-muxer=mov</div>
+                                    <div class="format-desc">Apple QuickTime容器格式</div>
+                                    <div class="format-tag popular">⭐ 推荐</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="muxers" value="avi">
+                                <div class="card-content">
+                                    <div class="format-icon">🎬</div>
+                                    <div class="format-name">AVI</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-muxer=avi</div>
+                                    <div class="format-desc">Audio Video Interleave容器</div>
+                                    <div class="format-tag popular">⭐ 推荐</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="muxers" value="mkv">
+                                <div class="card-content">
+                                    <div class="format-icon">📦</div>
+                                    <div class="format-name">MKV</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-muxer=matroska</div>
+                                    <div class="format-desc">Matroska开源多媒体容器</div>
+                                    <div class="format-tag popular">⭐ 推荐</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="muxers" value="webm">
+                                <div class="card-content">
+                                    <div class="format-icon">🌐</div>
+                                    <div class="format-name">WebM</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-muxer=webm</div>
+                                    <div class="format-desc">Google开发的Web视频格式</div>
+                                    <div class="format-tag popular">⭐ 推荐</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="muxers" value="flv">
+                                <div class="card-content">
+                                    <div class="format-icon">⚡</div>
+                                    <div class="format-name">FLV</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-muxer=flv</div>
+                                    <div class="format-desc">Flash Video容器格式</div>
+                                    <div class="format-tag">Flash</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="format-category">
+                        <h4>🎵 音频格式 (复用器)</h4>
+                        <div class="checkbox-grid">
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="muxers" value="m4a" checked>
+                                <div class="card-content">
+                                    <div class="format-icon">🎵</div>
+                                    <div class="format-name">M4A</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-muxer=ipod</div>
+                                    <div class="format-desc">MPEG-4音频容器，常用于AAC</div>
+                                    <div class="format-tag popular">常用</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="muxers" value="mp3">
+                                <div class="card-content">
+                                    <div class="format-icon">🎶</div>
+                                    <div class="format-name">MP3</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-muxer=mp3</div>
+                                    <div class="format-desc">MPEG Audio Layer III格式</div>
+                                    <div class="format-tag popular">⭐ 推荐</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="muxers" value="flac">
+                                <div class="card-content">
+                                    <div class="format-icon">💎</div>
+                                    <div class="format-name">FLAC</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-muxer=flac</div>
+                                    <div class="format-desc">自由无损音频编解码器</div>
+                                    <div class="format-tag">无损</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="muxers" value="wav">
+                                <div class="card-content">
+                                    <div class="format-icon">🔊</div>
+                                    <div class="format-name">WAV</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-muxer=wav</div>
+                                    <div class="format-desc">波形音频文件格式</div>
+                                    <div class="format-tag">无损</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="muxers" value="ogg">
+                                <div class="card-content">
+                                    <div class="format-icon">🆓</div>
+                                    <div class="format-name">OGG</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-muxer=ogg</div>
+                                    <div class="format-desc">Ogg开源容器格式</div>
+                                    <div class="format-tag">开源</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 步骤5: 解复用器 -->
+            <div class="section step-section" id="step-5" style="display: none;">
+                <h3>📥 第五步：解复用器配置</h3>
+                <p class="step-description">选择需要支持的输入格式。解复用器(Demuxer)用于读取和解析各种音视频文件格式</p>
+
+                <div class="format-grid">
+                    <div class="format-category">
+                        <h4>📹 视频输入格式 (解复用器)</h4>
+                        <div class="checkbox-grid">
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="demuxers" value="mov" checked>
+                                <div class="card-content">
+                                    <div class="format-icon">🍎</div>
+                                    <div class="format-name">MOV</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-demuxer=mov</div>
+                                    <div class="format-desc">QuickTime/MPEG-4容器解析器</div>
+                                    <div class="format-tag popular">常用</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="demuxers" value="mp4" checked>
+                                <div class="card-content">
+                                    <div class="format-icon">📱</div>
+                                    <div class="format-name">MP4</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-demuxer=mov</div>
+                                    <div class="format-desc">MPEG-4容器解析器</div>
+                                    <div class="format-tag popular">常用</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="demuxers" value="avi">
+                                <div class="card-content">
+                                    <div class="format-icon">🎬</div>
+                                    <div class="format-name">AVI</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-demuxer=avi</div>
+                                    <div class="format-desc">AVI容器解析器</div>
+                                    <div class="format-tag">传统</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="demuxers" value="mkv">
+                                <div class="card-content">
+                                    <div class="format-icon">📦</div>
+                                    <div class="format-name">MKV</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-demuxer=matroska</div>
+                                    <div class="format-desc">Matroska容器解析器</div>
+                                    <div class="format-tag">开源</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="demuxers" value="webm">
+                                <div class="card-content">
+                                    <div class="format-icon">🌐</div>
+                                    <div class="format-name">WebM</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-demuxer=matroska</div>
+                                    <div class="format-desc">WebM容器解析器</div>
+                                    <div class="format-tag">Web</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="demuxers" value="flv">
+                                <div class="card-content">
+                                    <div class="format-icon">⚡</div>
+                                    <div class="format-name">FLV</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-demuxer=flv</div>
+                                    <div class="format-desc">Flash Video解析器</div>
+                                    <div class="format-tag">Flash</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="format-category">
+                        <h4>🎵 音频输入格式 (解复用器)</h4>
+                        <div class="checkbox-grid">
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="demuxers" value="m4a" checked>
+                                <div class="card-content">
+                                    <div class="format-icon">🎵</div>
+                                    <div class="format-name">M4A</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-demuxer=mov</div>
+                                    <div class="format-desc">MPEG-4音频解析器</div>
+                                    <div class="format-tag popular">常用</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="demuxers" value="mp3" checked>
+                                <div class="card-content">
+                                    <div class="format-icon">🎶</div>
+                                    <div class="format-name">MP3</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-demuxer=mp3</div>
+                                    <div class="format-desc">MP3音频解析器</div>
+                                    <div class="format-tag popular">常用</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="demuxers" value="flac">
+                                <div class="card-content">
+                                    <div class="format-icon">💎</div>
+                                    <div class="format-name">FLAC</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-demuxer=flac</div>
+                                    <div class="format-desc">FLAC音频解析器</div>
+                                    <div class="format-tag">无损</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="demuxers" value="wav">
+                                <div class="card-content">
+                                    <div class="format-icon">🔊</div>
+                                    <div class="format-name">WAV</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-demuxer=wav</div>
+                                    <div class="format-desc">WAV音频解析器</div>
+                                    <div class="format-tag">无损</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="demuxers" value="ogg">
+                                <div class="card-content">
+                                    <div class="format-icon">🆓</div>
+                                    <div class="format-name">OGG</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-demuxer=ogg</div>
+                                    <div class="format-desc">Ogg容器解析器</div>
+                                    <div class="format-tag">开源</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="format-category">
+                        <h4>📡 流媒体格式 (解复用器)</h4>
+                        <div class="checkbox-grid">
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="demuxers" value="hls">
+                                <div class="card-content">
+                                    <div class="format-icon">🍎</div>
+                                    <div class="format-name">HLS</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-demuxer=hls</div>
+                                    <div class="format-desc">HTTP Live Streaming解析器</div>
+                                    <div class="format-tag">流媒体</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="demuxers" value="dash">
+                                <div class="card-content">
+                                    <div class="format-icon">⚡</div>
+                                    <div class="format-name">DASH</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-demuxer=dash</div>
+                                    <div class="format-desc">DASH流媒体解析器</div>
+                                    <div class="format-tag">流媒体</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 步骤6 -->
+            <div class="section step-section" id="step-6" style="display: none;">
+                <h3>🎨 第六步：滤镜配置</h3>
+                <p class="step-description">选择需要的滤镜，用于音视频处理和特效</p>
+
+                <div class="filter-grid">
+                    <div class="filter-category">
+                        <h4>🎬 视频滤镜</h4>
+                        <div class="checkbox-grid">
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="filters" value="scale">
+                                <div class="card-content">
+                                    <div class="filter-icon">📏</div>
+                                    <div class="filter-name">缩放 (scale)</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-filter=scale</div>
+                                    <div class="filter-desc">调整视频尺寸</div>
+                                    <div class="format-tag">基础</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="filters" value="format">
+                                <div class="card-content">
+                                    <div class="filter-icon">🔄</div>
+                                    <div class="filter-name">格式转换 (format)</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-filter=format</div>
+                                    <div class="filter-desc">像素格式转换</div>
+                                    <div class="format-tag">基础</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="filters" value="fps">
+                                <div class="card-content">
+                                    <div class="filter-icon">⏱️</div>
+                                    <div class="filter-name">帧率调整 (fps)</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-filter=fps</div>
+                                    <div class="filter-desc">改变视频帧率</div>
+                                    <div class="format-tag">常用</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="filters" value="rotate">
+                                <div class="card-content">
+                                    <div class="filter-icon">🔄</div>
+                                    <div class="filter-name">旋转 (rotate)</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-filter=rotate</div>
+                                    <div class="filter-desc">旋转视频画面</div>
+                                    <div class="format-tag">常用</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="filters" value="crop">
+                                <div class="card-content">
+                                    <div class="filter-icon">✂️</div>
+                                    <div class="filter-name">裁剪 (crop)</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-filter=crop</div>
+                                    <div class="filter-desc">裁剪视频区域</div>
+                                    <div class="format-tag">编辑</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="filters" value="overlay">
+                                <div class="card-content">
+                                    <div class="filter-icon">🎭</div>
+                                    <div class="filter-name">叠加 (overlay)</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-filter=overlay</div>
+                                    <div class="filter-desc">视频叠加效果</div>
+                                    <div class="format-tag">高级</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-category">
+                        <h4>🎵 音频滤镜</h4>
+                        <div class="checkbox-grid">
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="filters" value="aresample">
+                                <div class="card-content">
+                                    <div class="filter-icon">🔄</div>
+                                    <div class="filter-name">重采样 (aresample)</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-filter=aresample</div>
+                                    <div class="filter-desc">音频采样率转换</div>
+                                    <div class="format-tag">基础</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="filters" value="volume">
+                                <div class="card-content">
+                                    <div class="filter-icon">🔊</div>
+                                    <div class="filter-name">音量调节 (volume)</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-filter=volume</div>
+                                    <div class="filter-desc">调整音频音量</div>
+                                    <div class="format-tag">常用</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="filters" value="buffer">
+                                <div class="card-content">
+                                    <div class="filter-icon">📦</div>
+                                    <div class="filter-name">缓冲 (buffer)</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-filter=buffer</div>
+                                    <div class="filter-desc">视频缓冲滤镜</div>
+                                    <div class="format-tag">系统</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="filters" value="abuffer">
+                                <div class="card-content">
+                                    <div class="filter-icon">📦</div>
+                                    <div class="filter-name">音频缓冲 (abuffer)</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-filter=abuffer</div>
+                                    <div class="filter-desc">音频缓冲滤镜</div>
+                                    <div class="format-tag">系统</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 步骤7: 网络协议 -->
+            <div class="section step-section" id="step-7" style="display: none;">
+                <h3>🌐 第七步：网络协议配置</h3>
+                <p class="step-description">配置网络功能，适合流媒体应用和网络播放需求</p>
+
+                <div class="protocol-grid">
+                    <div class="protocol-category">
+                        <h4>🌐 基础网络协议</h4>
+                        <div class="checkbox-grid">
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="protocols" value="file" checked disabled>
+                                <div class="card-content">
+                                    <div class="protocol-icon">📁</div>
+                                    <div class="protocol-name">本地文件 (file)</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-protocol=file</div>
+                                    <div class="protocol-desc">访问本地文件系统</div>
+                                    <div class="format-tag required">必需</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="protocols" value="http" checked>
+                                <div class="card-content">
+                                    <div class="protocol-icon">🌐</div>
+                                    <div class="protocol-name">HTTP</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-protocol=http</div>
+                                    <div class="protocol-desc">超文本传输协议</div>
+                                    <div class="format-tag popular">常用</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="protocols" value="https" checked>
+                                <div class="card-content">
+                                    <div class="protocol-icon">🔒</div>
+                                    <div class="protocol-name">HTTPS</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-protocol=https</div>
+                                    <div class="protocol-desc">安全的HTTP协议</div>
+                                    <div class="format-tag popular">常用</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="protocols" value="ftp">
+                                <div class="card-content">
+                                    <div class="protocol-icon">📂</div>
+                                    <div class="protocol-name">FTP</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-protocol=ftp</div>
+                                    <div class="protocol-desc">文件传输协议</div>
+                                    <div class="format-tag">传统</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="protocol-category">
+                        <h4>📡 流媒体协议</h4>
+                        <div class="checkbox-grid">
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="protocols" value="hls">
+                                <div class="card-content">
+                                    <div class="protocol-icon">🍎</div>
+                                    <div class="protocol-name">HLS</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-protocol=hls</div>
+                                    <div class="protocol-desc">HTTP Live Streaming</div>
+                                    <div class="format-tag">Apple</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="protocols" value="dash">
+                                <div class="card-content">
+                                    <div class="protocol-icon">⚡</div>
+                                    <div class="protocol-name">DASH</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-protocol=dash</div>
+                                    <div class="protocol-desc">Dynamic Adaptive Streaming</div>
+                                    <div class="format-tag">标准</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="protocols" value="rtmp">
+                                <div class="card-content">
+                                    <div class="protocol-icon">🔴</div>
+                                    <div class="protocol-name">RTMP</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-protocol=rtmp</div>
+                                    <div class="protocol-desc">实时消息传输协议</div>
+                                    <div class="format-tag">直播</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="protocols" value="rtsp">
+                                <div class="card-content">
+                                    <div class="protocol-icon">📹</div>
+                                    <div class="protocol-name">RTSP</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-protocol=rtsp</div>
+                                    <div class="protocol-desc">实时流传输协议</div>
+                                    <div class="format-tag">监控</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="protocol-category">
+                        <h4>🔗 传输协议</h4>
+                        <div class="checkbox-grid">
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="protocols" value="tcp">
+                                <div class="card-content">
+                                    <div class="protocol-icon">🔗</div>
+                                    <div class="protocol-name">TCP</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-protocol=tcp</div>
+                                    <div class="protocol-desc">传输控制协议</div>
+                                    <div class="format-tag">可靠</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="protocols" value="udp">
+                                <div class="card-content">
+                                    <div class="protocol-icon">⚡</div>
+                                    <div class="protocol-name">UDP</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-protocol=udp</div>
+                                    <div class="protocol-desc">用户数据报协议</div>
+                                    <div class="format-tag">快速</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="protocols" value="rtp">
+                                <div class="card-content">
+                                    <div class="protocol-icon">📡</div>
+                                    <div class="protocol-name">RTP</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-protocol=rtp</div>
+                                    <div class="protocol-desc">实时传输协议</div>
+                                    <div class="format-tag">实时</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="protocols" value="srt">
+                                <div class="card-content">
+                                    <div class="protocol-icon">🚀</div>
+                                    <div class="protocol-name">SRT</div>
+                                    <div class="format-ffmpeg">FFmpeg: --enable-protocol=srt</div>
+                                    <div class="protocol-desc">安全可靠传输协议</div>
+                                    <div class="format-tag">低延迟</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 步骤8: 优化配置 -->
+            <div class="section step-section" id="step-8" style="display: none;">
+                <h3>🔧 第八步：优化配置</h3>
+                <p class="step-description">配置编译优化选项和目标架构，平衡性能与体积</p>
+
+                <div class="optimization-grid">
+                    <div class="optimization-section">
+                        <h4>🏗️ 目标架构</h4>
+                        <p class="section-desc">选择要编译的Android架构</p>
+                        <div class="checkbox-grid">
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="architectures" value="arm64-v8a" checked>
+                                <div class="card-content">
+                                    <div class="arch-icon">📱</div>
+                                    <div class="arch-name">ARM64 (arm64-v8a)</div>
+                                    <div class="arch-desc">现代64位ARM处理器</div>
+                                    <div class="format-tag popular">⭐ 推荐</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="architectures" value="armeabi-v7a" checked>
+                                <div class="card-content">
+                                    <div class="arch-icon">📲</div>
+                                    <div class="arch-name">ARM (armeabi-v7a)</div>
+                                    <div class="arch-desc">32位ARM处理器</div>
+                                    <div class="format-tag">兼容</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="architectures" value="x86">
+                                <div class="card-content">
+                                    <div class="arch-icon">💻</div>
+                                    <div class="arch-name">x86</div>
+                                    <div class="arch-desc">32位x86处理器</div>
+                                    <div class="format-tag">模拟器</div>
+                                </div>
+                            </label>
+
+                            <label class="checkbox-card">
+                                <input type="checkbox" name="architectures" value="x86_64">
+                                <div class="card-content">
+                                    <div class="arch-icon">🖥️</div>
+                                    <div class="arch-name">x86_64</div>
+                                    <div class="arch-desc">64位x86处理器</div>
+                                    <div class="format-tag">模拟器</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="optimization-section">
+                        <h4>⚙️ 基础设置</h4>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="api">Android API 级别</label>
+                                <select id="api">
+                                    <option value="21">API 21 (Android 5.0)</option>
+                                    <option value="23">API 23 (Android 6.0)</option>
+                                    <option value="26">API 26 (Android 8.0)</option>
+                                    <option value="28">API 28 (Android 9.0)</option>
+                                    <option value="29">API 29 (Android 10)</option>
+                                    <option value="30">API 30 (Android 11)</option>
+                                    <option value="31">API 31 (Android 12)</option>
+                                </select>
+                                <small>最低支持的Android版本</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="outputType">输出类型</label>
+                                <select id="outputType">
+                                    <option value="shared">动态库 (.so)</option>
+                                    <option value="static">静态库 (.a)</option>
+                                </select>
+                                <small>库的链接方式</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="optimization-section">
+                        <h4>🚀 编译优化</h4>
+                        <div class="optimization-options">
+                            <label class="switch-card">
+                                <input type="checkbox" id="enableSmall">
+                                <div class="switch-content">
+                                    <div class="switch-header">
+                                        <span class="switch-title">最小化体积</span>
+                                        <div class="switch"></div>
+                                    </div>
+                                    <div class="switch-desc">启用 --enable-small 优化，减小库体积</div>
+                                </div>
+                            </label>
+
+                            <label class="switch-card">
+                                <input type="checkbox" id="disableDebug" checked>
+                                <div class="switch-content">
+                                    <div class="switch-header">
+                                        <span class="switch-title">禁用调试信息</span>
+                                        <div class="switch"></div>
+                                    </div>
+                                    <div class="switch-desc">移除调试符号，减小文件大小</div>
+                                </div>
+                            </label>
+
+                            <label class="switch-card">
+                                <input type="checkbox" id="disablePrograms" checked>
+                                <div class="switch-content">
+                                    <div class="switch-header">
+                                        <span class="switch-title">禁用程序</span>
+                                        <div class="switch"></div>
+                                    </div>
+                                    <div class="switch-desc">不编译ffmpeg、ffplay等程序</div>
+                                </div>
+                            </label>
+
+                            <label class="switch-card">
+                                <input type="checkbox" id="disableDoc" checked>
+                                <div class="switch-content">
+                                    <div class="switch-header">
+                                        <span class="switch-title">禁用文档</span>
+                                        <div class="switch"></div>
+                                    </div>
+                                    <div class="switch-desc">不生成文档文件</div>
+                                </div>
+                            </label>
+
+                            <label class="switch-card">
+                                <input type="checkbox" id="enablePic" checked>
+                                <div class="switch-content">
+                                    <div class="switch-header">
+                                        <span class="switch-title">位置无关代码</span>
+                                        <div class="switch"></div>
+                                    </div>
+                                    <div class="switch-desc">启用PIC，适合动态库</div>
+                                </div>
+                            </label>
+
+                            <label class="switch-card">
+                                <input type="checkbox" id="disableAsm" checked>
+                                <div class="switch-content">
+                                    <div class="switch-header">
+                                        <span class="switch-title">禁用汇编优化</span>
+                                        <div class="switch"></div>
+                                    </div>
+                                    <div class="switch-desc">避免汇编兼容性问题</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 步骤9: 开始编译 -->
+            <div class="section step-section" id="step-9" style="display: none;">
+                <h3>🚀 第九步：开始编译</h3>
+                <p class="step-description">配置完成，开始编译FFmpeg库并显示实时日志</p>
+
+                <div class="compile-section">
+                    <div class="config-summary" id="config-summary">
+                        <h4>📋 配置摘要</h4>
+                        <div class="summary-grid">
+                            <div class="summary-item">
+                                <span class="summary-label">预设配置:</span>
+                                <span class="summary-value" id="summary-preset">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">目标架构:</span>
+                                <span class="summary-value" id="summary-architectures">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">解码器:</span>
+                                <span class="summary-value" id="summary-decoders">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">编码器:</span>
+                                <span class="summary-value" id="summary-encoders">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">复用器:</span>
+                                <span class="summary-value" id="summary-muxers">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">解复用器:</span>
+                                <span class="summary-value" id="summary-demuxers">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">滤镜:</span>
+                                <span class="summary-value" id="summary-filters">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">网络协议:</span>
+                                <span class="summary-value" id="summary-protocols">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="compile-controls">
+                        <button class="btn btn-success btn-large" id="final-compile-btn">
+                            <span class="btn-icon">🚀</span>
+                            开始编译 FFmpeg
+                        </button>
+                        <button class="btn btn-secondary" id="save-config-btn">
+                            <span class="btn-icon">💾</span>
+                            保存配置
+                        </button>
+                        <button class="btn btn-secondary" id="generate-script-btn">
+                            <span class="btn-icon">📝</span>
+                            生成脚本
+                        </button>
+                    </div>
+
+                    <div class="compile-status" id="compile-status" style="display: none;">
+                        <div class="status-header">
+                            <h4>📊 编译状态</h4>
+                            <div class="status-indicator" id="status-indicator">
+                                <span class="status-text" id="status-text">准备中...</span>
+                            </div>
+                        </div>
+
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <div class="progress-text">
+                                <span id="progress-percentage">0%</span>
+                                <span id="progress-stage">等待开始</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="log-container" id="log-container" style="display: none;">
+                        <div class="log-header">
+                            <h4>📝 编译日志</h4>
+                            <div class="log-controls">
+                                <button class="btn btn-small" id="clear-logs-btn">清空日志</button>
+                                <button class="btn btn-small" id="auto-scroll-btn" data-enabled="true">自动滚动</button>
+                            </div>
+                        </div>
+                        <div class="log-content" id="log-content">
+                            <div class="log-placeholder">等待编译开始...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+
+</html>

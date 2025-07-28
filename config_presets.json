@@ -1,0 +1,192 @@
+{
+  "presets": {
+    "minimal": {
+      "name": "最小版",
+      "description": "最小化版本，仅包含基本的H.264解码功能，适合简单播放器",
+      "config": {
+        "api": 21,
+        "outputType": "shared",
+        "architectures": ["arm64-v8a"],
+        "decoders": ["h264"],
+        "encoders": [],
+        "muxers": ["mp4"],
+        "demuxers": ["mp4"],
+        "protocols": ["file"],
+        "filters": [],
+        "optimizations": {
+          "disableAsm": true,
+          "enablePic": true,
+          "disableDebug": true,
+          "disableDoc": true,
+          "disablePrograms": true,
+          "enableSmall": true
+        }
+      }
+    },
+    "basic": {
+      "name": "基础版",
+      "description": "适合基本的视频播放应用，包含常用编解码器和格式支持",
+      "config": {
+        "api": 21,
+        "outputType": "shared",
+        "architectures": ["arm64-v8a", "armeabi-v7a"],
+        "decoders": ["h264", "h265", "aac", "mp3", "flac", "pcm_s16le"],
+        "encoders": ["aac", "pcm_s16le"],
+        "muxers": ["mp4", "mov", "m4a"],
+        "demuxers": ["mov", "mp4", "m4a", "mp3", "flac", "wav"],
+        "protocols": ["file", "http", "https"],
+        "filters": ["scale", "format", "aresample"],
+        "optimizations": {
+          "disableAsm": true,
+          "enablePic": true,
+          "disableDebug": true,
+          "disableDoc": true,
+          "disablePrograms": true,
+          "enableSmall": false
+        }
+      }
+    },
+    "standard": {
+      "name": "标准版",
+      "description": "包含常用的编解码器和格式，适合大多数移动应用",
+      "config": {
+        "api": 21,
+        "outputType": "shared",
+        "architectures": ["arm64-v8a", "armeabi-v7a"],
+        "decoders": ["h264", "h265", "vp8", "vp9", "av1", "aac", "mp3", "flac", "vorbis", "opus", "pcm_s16le"],
+        "encoders": ["libx264", "aac", "libmp3lame", "pcm_s16le"],
+        "muxers": ["mp4", "mov", "avi", "mkv", "webm", "m4a", "mp3", "flac"],
+        "demuxers": ["mov", "mp4", "avi", "mkv", "webm", "m4a", "mp3", "flac", "wav", "ogg"],
+        "protocols": ["file", "http", "https", "hls", "dash"],
+        "filters": ["scale", "format", "aresample", "volume", "fps", "rotate"],
+        "optimizations": {
+          "disableAsm": true,
+          "enablePic": true,
+          "disableDebug": true,
+          "disableDoc": true,
+          "disablePrograms": true,
+          "enableSmall": false
+        }
+      }
+    },
+    "streaming": {
+      "name": "流媒体版",
+      "description": "专为流媒体播放优化，支持多种网络协议和自适应流",
+      "config": {
+        "api": 21,
+        "outputType": "shared",
+        "architectures": ["arm64-v8a", "armeabi-v7a"],
+        "decoders": ["h264", "h265", "vp8", "vp9", "av1", "aac", "mp3", "opus", "vorbis"],
+        "encoders": ["aac", "opus"],
+        "muxers": ["mp4", "webm", "hls", "dash"],
+        "demuxers": ["mov", "mp4", "webm", "hls", "dash", "m3u8"],
+        "protocols": ["file", "http", "https", "hls", "dash", "tcp", "udp", "rtp"],
+        "filters": ["scale", "format", "aresample", "buffer", "abuffer"],
+        "optimizations": {
+          "disableAsm": true,
+          "enablePic": true,
+          "disableDebug": true,
+          "disableDoc": true,
+          "disablePrograms": true,
+          "enableSmall": false
+        }
+      }
+    },
+    "live": {
+      "name": "直播版",
+      "description": "专为直播应用优化，支持实时编码和流媒体推流协议",
+      "config": {
+        "api": 21,
+        "outputType": "shared",
+        "architectures": ["arm64-v8a", "armeabi-v7a"],
+        "decoders": ["h264", "h265", "aac", "opus"],
+        "encoders": ["libx264", "libx265", "aac", "opus"],
+        "muxers": ["mp4", "flv", "hls", "dash", "rtmp"],
+        "demuxers": ["mov", "mp4", "flv", "hls", "rtmp"],
+        "protocols": ["file", "http", "https", "rtmp", "rtsp", "srt", "udp", "tcp"],
+        "filters": ["scale", "format", "aresample", "fps", "buffer", "abuffer"],
+        "optimizations": {
+          "disableAsm": true,
+          "enablePic": true,
+          "disableDebug": true,
+          "disableDoc": true,
+          "disablePrograms": true,
+          "enableSmall": true
+        }
+      }
+    },
+    "complete": {
+      "name": "完整版",
+      "description": "包含所有功能的完整版本，支持全架构和最多的编解码器",
+      "config": {
+        "api": 21,
+        "outputType": "shared",
+        "architectures": ["arm64-v8a", "armeabi-v7a", "x86", "x86_64"],
+        "decoders": [
+          "h264", "h265", "vp8", "vp9", "av1", "mpeg4", "mpeg2video", "mpeg1video",
+          "aac", "mp3", "flac", "vorbis", "opus", "ac3", "eac3", "dts", "pcm_s16le", "pcm_s24le"
+        ],
+        "encoders": [
+          "libx264", "libx265", "libvpx", "libvpx-vp9", "aac", "libmp3lame", "libopus", "libvorbis", "pcm_s16le"
+        ],
+        "muxers": [
+          "mp4", "mov", "avi", "mkv", "webm", "flv", "hls", "dash", "m4a", "mp3", "flac", "wav", "ogg"
+        ],
+        "demuxers": [
+          "mov", "mp4", "avi", "mkv", "webm", "flv", "hls", "dash", "m3u8", "m4a", "mp3", "flac", "wav", "ogg", "ac3", "dts"
+        ],
+        "protocols": [
+          "file", "http", "https", "rtmp", "rtsp", "hls", "dash", "srt", "udp", "tcp", "rtp", "ftp", "sftp"
+        ],
+        "filters": [
+          "scale", "format", "aresample", "volume", "fps", "rotate", "crop", "pad", "overlay", "concat", "buffer", "abuffer"
+        ],
+        "optimizations": {
+          "disableAsm": false,
+          "enablePic": true,
+          "disableDebug": true,
+          "disableDoc": true,
+          "disablePrograms": true,
+          "enableSmall": false
+        }
+      }
+    },
+    "professional": {
+      "name": "专业版",
+      "description": "专业级配置，包含高级编解码器和处理功能，适合专业视频应用",
+      "config": {
+        "api": 21,
+        "outputType": "shared",
+        "architectures": ["arm64-v8a", "armeabi-v7a"],
+        "decoders": [
+          "h264", "h265", "vp8", "vp9", "av1", "prores", "dnxhd", "mjpeg",
+          "aac", "mp3", "flac", "pcm_s16le", "pcm_s24le", "pcm_s32le"
+        ],
+        "encoders": [
+          "libx264", "libx265", "libvpx-vp9", "mjpeg", "aac", "libmp3lame", "pcm_s16le", "pcm_s24le"
+        ],
+        "muxers": [
+          "mp4", "mov", "avi", "mkv", "webm", "mxf", "m4a", "wav"
+        ],
+        "demuxers": [
+          "mov", "mp4", "avi", "mkv", "webm", "mxf", "m4a", "wav", "rawvideo"
+        ],
+        "protocols": [
+          "file", "http", "https", "ftp", "sftp"
+        ],
+        "filters": [
+          "scale", "format", "aresample", "volume", "fps", "rotate", "crop", "pad", "overlay", 
+          "concat", "colorspace", "lut3d", "eq", "unsharp", "denoise"
+        ],
+        "optimizations": {
+          "disableAsm": false,
+          "enablePic": true,
+          "disableDebug": true,
+          "disableDoc": true,
+          "disablePrograms": true,
+          "enableSmall": false
+        }
+      }
+    }
+  }
+}

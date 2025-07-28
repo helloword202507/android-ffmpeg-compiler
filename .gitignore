@@ -1,0 +1,6 @@
+__pycache__
+android-ndk*
+ffmpeg*/
+build*/
+msys64
+.vscode
