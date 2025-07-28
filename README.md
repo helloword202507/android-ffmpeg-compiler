@@ -1,3 +1,7 @@
+# 联系作者
+
+helloword202507@163.com
+
 # 🎬 FFmpeg Android 编译配置
 
 一个用于简化FFmpeg Android库编译的图形化配置工具，支持命令行和Web界面两种使用模式。
